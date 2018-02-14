@@ -36,12 +36,24 @@ app.get("/", function(req,res,next){
 
 app.get("/login", function(req,res,next){
     const user = req.query.username;
-    res.render("login_form", {user});
+    res.render("login_form", {error:user});
 });
 
 app.post("/login", function(req, res, next){
-    console.log(req.body);
-    res.send("Recibi el post");
+
+    users.forEach(user=>{
+        if(user.name === req.body.username && user.password === req.body.password){
+            res.send(`
+                Hola ${req.body.username} Tenemos ${user.favoriteFood} para ti
+            `)
+        }else{
+            res.render("login_form", {error:"incorrect password"});
+        }
+    })
+
+
+
+
 });
 
 
