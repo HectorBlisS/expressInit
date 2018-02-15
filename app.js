@@ -2,13 +2,7 @@
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/peliculas");
 
-//Modelo rapido
-const Pelicula = mongoose.model("Pelicula", {
-    title:String,
-    genre:[String],
-    year:String,
-    rate:Number
-})
+
 
 //1.- importacion de la libreria
 const express = require("express");
@@ -19,8 +13,9 @@ const app = express();
 //body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//importacion de ruters
+//importacion de routers
 const courseRouter = require("./routes/index.js");
+const peliculasRouter = require("./routes/peliculas.js");
 
 const users = [
     {
@@ -88,8 +83,9 @@ app.get("/users/:userid", function(req,res){
     res.send(req.params.userid);
 });
 
-
+//usamos nuestros routers
 app.use("/courses",courseRouter);
+app.use("/peliculas", peliculasRouter);
 
 app.get("/peliculas/new", function(req,res){
     const movie = new Pelicula({title:"InterBlisstelar"});
