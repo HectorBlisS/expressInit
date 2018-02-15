@@ -1,3 +1,15 @@
+//mongoose config
+const mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost:27017/peliculas");
+
+//Modelo rapido
+const Pelicula = mongoose.model("Pelicula", {
+    title:String,
+    genre:[String],
+    year:String,
+    rate:Number
+})
+
 //1.- importacion de la libreria
 const express = require("express");
 const bodyParser = require('body-parser');
@@ -78,6 +90,12 @@ app.get("/users/:userid", function(req,res){
 
 
 app.use("/courses",courseRouter);
+
+app.get("/peliculas/new", function(req,res){
+    const movie = new Pelicula({title:"InterBlisstelar"});
+    movie.save();
+    res.send("Agregada");
+})
 
 
 app.use(function(){
