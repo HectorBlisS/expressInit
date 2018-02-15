@@ -7,6 +7,9 @@ const app = express();
 //body parser
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//importacion de ruters
+const courseRouter = require("./routes/index.js");
+
 const users = [
     {
         name:"bliss",
@@ -51,15 +54,39 @@ app.post("/login", function(req, res, next){
         }
     })
 
-
-
-
 });
+
+app.get("/signup", function(req,res){
+    res.render("signup_form");
+});
+
+app.post("/tsuki", (req,res)=>{
+    var nuevoUsuario =     {
+        name: req.body.username,
+        password: req.body.password,
+        age: req.body.age,
+        favoriteFood: req.body.favoriteFood
+    };
+    users.push(nuevoUsuario);
+    res.json(users);
+});
+
+app.get("/users/:userid", function(req,res){
+    console.log("bliss");
+    res.send(req.params.userid);
+});
+
+
+app.use("/courses",courseRouter);
 
 
 app.use(function(){
     console.log("BlisS needs candies");
 });
+
+
+
+
 
 
 
